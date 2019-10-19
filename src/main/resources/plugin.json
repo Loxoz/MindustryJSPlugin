@@ -1,0 +1,7 @@
+{
+  "name": "MindustryJSPlugin",
+  "author": "Loxoz",
+  "main": "fr.loxoz.mindustry.MindustryJSPlugin",
+  "description": "A Mindustry Plugin to support Javascript scripts",
+  "version": "${version}"
+}
