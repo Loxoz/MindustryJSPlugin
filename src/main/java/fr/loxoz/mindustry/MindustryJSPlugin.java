@@ -1,66 +1,90 @@
 package fr.loxoz.mindustry;
 
-import io.anuke.arc.*;
-import io.anuke.arc.util.*;
-import io.anuke.mindustry.*;
-import io.anuke.mindustry.content.*;
-import io.anuke.mindustry.entities.type.*;
-import io.anuke.mindustry.game.EventType.*;
-import io.anuke.mindustry.gen.*;
+import java.io.InputStreamReader;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import io.anuke.arc.util.CommandHandler;
+import io.anuke.arc.util.Log;
+import io.anuke.mindustry.entities.type.Player;
 import io.anuke.mindustry.plugin.Plugin;
 
 public class MindustryJSPlugin extends Plugin {
 
-    // Default code from the Mindustry Example Plugin (Project just Launched)
+    protected ScriptEngine engine = null;
 
-    // register event handlers and create variables in the constructor
     public MindustryJSPlugin() {
-        //listen for a block selection event
-        Events.on(BuildSelectEvent.class, event -> {
-            if(!event.breaking && event.builder != null && event.builder.buildRequest() != null && event.builder.buildRequest().block == Blocks.thoriumReactor && event.builder instanceof Player){
-                //send a message to everyone saying that this player has begun building a reactor
-                Call.sendMessage("[scarlet]ALERT![] " + ((Player)event.builder).name + " has begun building a reactor at " + event.tile.x + ", " + event.tile.y);
+
+        try {
+            ScriptEngineManager manager = new ScriptEngineManager();
+            this.engine = manager.getEngineByName("JavaScript");
+            if (this.engine != null) {
+                Invocable inv = (Invocable) this.engine;
+                this.engine.eval(new InputStreamReader(utils.getResource("engineboot.js")));
+                inv.invokeFunction("boot", this, engine);
+            } else {
+                Log.err("No JavaScript Engine available. MindustryJSPlugin cannot work without any javascript engine.");
             }
-        });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Log.err(ex.getMessage());
+        }
     }
 
-    //register commands that run on the server
     @Override
-    public void registerServerCommands(CommandHandler handler){
-        handler.register("reactors", "List all thorium reactors in the map.", args -> {
-            for(int x = 0; x < Vars.world.width(); x++){
-                for(int y = 0; y < Vars.world.height(); y++){
-                    //loop through and log all found reactors
-                    if(Vars.world.tile(x, y).block() == Blocks.thoriumReactor){
-                        Log.info("Reactor at {0}, {1}", x, y);
-                    }
-                }
-            }
+    public void registerServerCommands(CommandHandler handler) {
+        handler.register("js", "<code>", "Run javascript and send result", args -> {
+            String code = String.join("", args);
+            String result = formatResultToString(runJs(code));
+            Log.info("JS> " + result);
         });
     }
 
-    //register commands that player can invoke in-game
     @Override
-    public void registerClientCommands(CommandHandler handler){
+    public void registerClientCommands(CommandHandler handler) {
 
-        //register a simple reply command
-        handler.<Player>register("reply", "<text...>", "A simple ping command that echoes a player's text.", (args, player) -> {
-            player.sendMessage("You said: [accent] " + args[0]);
-        });
-
-        //register a whisper command which can be used to send other players messages
-        handler.<Player>register("whisper", "<player> <text...>", "Whisper text to another player.", (args, player) -> {
-            //find player by name
-            Player other = Vars.playerGroup.find(p -> p.name.equalsIgnoreCase(args[0]));
-
-            //give error message with scarlet-colored text if player isn't found
-            if(other == null){
-                player.sendMessage("[scarlet]No player by that name found!");
-                return;
+        handler.<Player>register("js", "<code>", "Run javascript and send result", (args, player) -> {
+            if (player.isAdmin) {
+                String code = String.join("", args);
+                String result = formatResultToString(runJs(code), true);
+                player.sendMessage("[gold]" + "JS> " + "[white]" + result);
             }
-
-            //send the other player a message, using [lightgray] for gray text color and [] to reset color
-            other.sendMessage("[lightgray](whisper) " + player.name + ":[] " + args[1]);
+            else {
+                player.sendMessage("[gold]" + "JS> " +"[red]" + "You need to be an admin to run this command!");
+            }
         });
+
     }
+
+    public Object runJs(String code) {
+        try {
+            return this.engine.eval(code);
+        } catch (ScriptException ex) {
+            /* ex.printStackTrace(); /* only for debugging in console */
+            return (ex.getMessage());
+        }
+    }
+
+    public String formatResultToString(Object result) {
+        return formatResultToString(result, false);
+    }
+
+    public String formatResultToString(Object result, Boolean formatted) {
+        if (result instanceof String) {
+            return "\"" + result.toString() + "\"";
+        }
+        else if (result instanceof Number) {
+            return result.toString();
+        }
+        else if (result instanceof Boolean) {
+            return result.toString();
+        }
+        else {
+            return result.toString();
+        }
+    }
+
 }

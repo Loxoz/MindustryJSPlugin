@@ -2,16 +2,19 @@
 
 ### A Mindustry Plugin to support Javascript scripts
 
-This plugin has only been launched today so nothing can actually be done for now, please note that this project is in alpha
+Please note that this project is in early alpha, do not expect to see anything working for the moment
 
 ## Installing
 
-Simply place the output jar from the step above in your server's `config/plugins` directory and restart the server.
+Simply place the jar you downloaded / built in your server's `config/plugins` directory and restart the server.
 List your currently installed plugins by running the `plugins` command.
 
 ## Wiki
 
 this is coming later
+
+for the 0.1.0 pre version you can do:
+``/js <javascript code>`` -> send the result (both player and console can do that)
 
 ## Mindustry Plugin System Note
 
