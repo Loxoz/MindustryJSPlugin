@@ -20,14 +20,19 @@ public class MindustryJSPlugin extends Plugin {
 
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
-            this.engine = manager.getEngineByName("JavaScript");
+            /* JavaScript engine is too old so using the new es6 engine (nashorn) */
+            // this.engine = manager.getEngineByName("JavaScript");
+            System.setProperty("nashorn.args", "--language=es6");
+            this.engine = manager.getEngineByName("nashorn");
             if (this.engine != null) {
                 Invocable inv = (Invocable) this.engine;
-                this.engine.eval(new InputStreamReader(utils.getResource("engineboot.js")));
-                inv.invokeFunction("boot", this, engine);
+                InputStreamReader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("boot.js"));
+                this.engine.eval(reader);
+                inv.invokeFunction("__boot", this, engine, getClass().getClassLoader());
             } else {
                 Log.err("No JavaScript Engine available. MindustryJSPlugin cannot work without any javascript engine.");
             }
+
         } catch (Exception ex) {
             ex.printStackTrace();
             Log.err(ex.getMessage());

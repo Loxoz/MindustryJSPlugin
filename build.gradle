@@ -14,14 +14,17 @@ configFile.withReader {
 
 version = config.plugin_version
 
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-}
-
 ext {
     /* the build number that this plugin is made for */
     mindustryVersion = config.mindustry_version
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    flatDir {
+       dirs 'libs'
+    }
 }
 
 dependencies{
