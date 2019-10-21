@@ -36,7 +36,7 @@ public class MindustryJSPlugin extends Plugin {
 
     @Override
     public void registerServerCommands(CommandHandler handler) {
-        handler.register("js", "<code>", "Run javascript and send result", args -> {
+        handler.register("js", "<code...>", "Run javascript and send result", args -> {
             String code = String.join("", args);
             String result = formatResultToString(runJs(code));
             Log.info("JS> " + result);
@@ -46,9 +46,9 @@ public class MindustryJSPlugin extends Plugin {
     @Override
     public void registerClientCommands(CommandHandler handler) {
 
-        handler.<Player>register("js", "<code>", "Run javascript and send result", (args, player) -> {
+        handler.<Player>register("js", "<code...>", "Run javascript and send result", (args, player) -> {
             if (player.isAdmin) {
-                String code = String.join("", args);
+                String code = String.join(" ", args);
                 String result = formatResultToString(runJs(code), true);
                 player.sendMessage("[gold]" + "JS> " + "[white]" + result);
             }
@@ -74,13 +74,13 @@ public class MindustryJSPlugin extends Plugin {
 
     public String formatResultToString(Object result, Boolean formatted) {
         if (result instanceof String) {
-            return "\"" + result.toString() + "\"";
+            return (formatted ? "[teal]" : "" ) + "\"" + result.toString() + "\"";
         }
         else if (result instanceof Number) {
-            return result.toString();
+            return (formatted ? "[pink]" : "" ) + result.toString();
         }
         else if (result instanceof Boolean) {
-            return result.toString();
+            return (formatted ? "[sky]" : "" ) + result.toString();
         }
         else {
             return result.toString();
