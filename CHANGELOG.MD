@@ -10,4 +10,4 @@ All notable changes to this project will be documented in this file.
 
 *Project launched* 😉
 
-[0.1.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.8...v0.1.0
+[0.1.0]:https://github.com/Loxoz/MindustryJSPlugin/commit/dfaebba2f87fa88ada31e901e92cb98d4d5e4c43
