@@ -78,17 +78,30 @@ public class MindustryJSPlugin extends Plugin {
     }
 
     public String formatResultToString(Object result, Boolean formatted) {
-        if (result instanceof String) {
-            return (formatted ? "[teal]" : "" ) + "\"" + result.toString() + "\"";
-        }
-        else if (result instanceof Number) {
-            return (formatted ? "[pink]" : "" ) + result.toString();
-        }
-        else if (result instanceof Boolean) {
-            return (formatted ? "[sky]" : "" ) + result.toString();
+        if (result != null) {
+            if (result instanceof String) {
+                System.out.println("[Debug] class: " + result.getClass().getName());
+                return (formatted ? "[teal]" : "") + "\"" + result.toString() + "\"";
+            }
+            else if (result instanceof Number) {
+                return (formatted ? "[pink]" : "") + result.toString();
+            }
+            else if (result instanceof Boolean) {
+                return (formatted ? "[sky]" : "") + result.toString();
+            }
+            else if (result.getClass().getName() == "jdk.internal.dynalink.beans.StaticClass") {
+                return (formatted ? "[salmon]" : "") + result.toString();
+            }
+            else if (result.getClass().getName() == "jdk.nashorn.api.scripting.ScriptObjectMirror") {
+                return (formatted ? "[cyan]" : "") + result.toString();
+            }
+            else {
+                System.out.println("[Debug] class: " + result.getClass().getName());
+                return result.toString();
+            }
         }
         else {
-            return result.toString();
+            return (formatted ? "[gray]" : "") + "undefined";
         }
     }
 

@@ -2,6 +2,8 @@
 
 ### A Mindustry Plugin to support Javascript scripts as sub-plugins
 
+👉🏻 **Please also note** that this project is gonna be **not maintained for a moment** because of the **community choices** that are giving me troubles on how to continue and i'm also doing a **new project** that could be better if it gets finished: https://github.com/Loxoz/Mindustry-server.js
+
 👉🏻 Please note that this project is in **early alpha**, do not expect to see anything working for now
 
 ## Installing
@@ -17,7 +19,7 @@ for `0.1.0 pre` version and above you can do:
 `/js <javascript code>` -> sends result (both player and console can do that for now)
 
 ### Example:
-![example](images/example.png)
+![example](images/example.png)  
 And it supports ES6! (ECMAScript 6)  
 See all features: https://github.com/lukehoban/es6features/blob/master/README.md
 
