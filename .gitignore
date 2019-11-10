@@ -158,3 +158,6 @@ android/libs/
 
 ## Visual Studio Code
 .vscode/
+
+## Temp
+doc/

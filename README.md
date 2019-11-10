@@ -2,9 +2,7 @@
 
 ### A Mindustry Plugin to support Javascript scripts as sub-plugins
 
-👉🏻 **Please also note** that this project is gonna be **not maintained for a moment** because of the **community choices** that are giving me troubles on how to continue and i'm also doing a **new project** that could be better if it gets finished: https://github.com/Loxoz/Mindustry-server.js
-
-👉🏻 Please note that this project is in **early alpha**, do not expect to see anything working for now
+👉🏻 Please note that this project is in **early alpha**, do not expect to see anything working for now, and it's subject to major changes
 
 ## Installing
 
@@ -13,30 +11,22 @@ List your currently installed plugins by running the `plugins` command.
 
 ## Wiki
 
-*incoming feature*
+*coming feature*
 
 for `0.1.0 pre` version and above you can do:  
 `/js <javascript code>` -> sends result (both player and console can do that for now)
 
 ### Example:
 ![example](images/example.png)  
-And it supports ES6! (ECMAScript 6)  
-See all features: https://github.com/lukehoban/es6features/blob/master/README.md
+🚧 Warning: It has a little support of **ES6** fow now (ECMAScript 6)  
+➡ Actually only `const` and `let` are supported  
+See all ES6 features: https://github.com/lukehoban/es6features/blob/master/README.md
 
-🚧 Warning: Not all ES6 features are supported like:  
-- [Arrows functions & features](https://github.com/lukehoban/es6features/blob/master/README.md#arrows) "`() => {}`" are not supported, so you're gonna have to stick with "`function() {}`"  
-- [enhanced object literals](https://github.com/lukehoban/es6features/blob/master/README.md#enhanced-object-literals) "`{ func() {}, myvar, item: "value" }`" doesn't works too  
-
-(haven't tested all yet so some are probably not working too)  
-Those requires Java 9 new Nashorn library, assuming that almost everyone is running on Java 8 on their servers i'm sticking with Java 8 (but you can open an Issue and if there is sufficient people complaining, i'm gonna update to Java 9)
+I'm still looking for solutions like running the new https://www.graalvm.org/
 
 ## Download
 
 Go to the [releases tab here](https://github.com/Loxoz/MindustryJSPlugin/releases)
-
-## Mindustry Plugin System Note
-
-Please note that the plugin system is in **early alpha**, and is subject to major changes.
 
 ## Building
 

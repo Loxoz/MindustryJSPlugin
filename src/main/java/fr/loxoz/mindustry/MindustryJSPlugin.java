@@ -7,9 +7,11 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import io.anuke.arc.Events;
 import io.anuke.arc.util.CommandHandler;
 import io.anuke.arc.util.Log;
 import io.anuke.mindustry.entities.type.Player;
+import io.anuke.mindustry.game.EventType;
 import io.anuke.mindustry.plugin.Plugin;
 
 public class MindustryJSPlugin extends Plugin {
@@ -29,6 +31,7 @@ public class MindustryJSPlugin extends Plugin {
                 InputStreamReader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("boot.js"));
                 this.engine.eval(reader);
                 inv.invokeFunction("__boot", this, engine, getClass().getClassLoader());
+                registerEvents(engine);
             } else {
                 Log.err("No JavaScript Engine available. MindustryJSPlugin cannot work without any javascript engine.");
             }
@@ -63,6 +66,58 @@ public class MindustryJSPlugin extends Plugin {
         });
 
     }
+
+    public static void registerEvent(Class<?> eventType, ScriptEngine engine){
+        Events.on(eventType, e -> {
+            try{
+                ((Invocable)engine).invokeFunction("__onEvent", eventType.getSimpleName(), e);
+            }
+            catch(Exception ex){
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public static void registerEvents(ScriptEngine engine) {
+        registerEvent(EventType.BlockBuildBeginEvent.class, engine);
+        registerEvent(EventType.BlockBuildEndEvent.class, engine);
+        registerEvent(EventType.BlockDestroyEvent.class, engine);
+        registerEvent(EventType.BlockInfoEvent.class, engine);
+        registerEvent(EventType.BuildSelectEvent.class, engine);
+        registerEvent(EventType.ClientLoadEvent.class, engine);
+        registerEvent(EventType.CommandIssueEvent.class, engine);
+        registerEvent(EventType.CoreItemDeliverEvent.class, engine);
+        registerEvent(EventType.DepositEvent.class, engine);
+        registerEvent(EventType.DisposeEvent.class, engine);
+        registerEvent(EventType.GameOverEvent.class, engine);
+        registerEvent(EventType.LaunchEvent.class, engine);
+        registerEvent(EventType.LineConfirmEvent.class, engine);
+        registerEvent(EventType.LoseEvent.class, engine);
+        registerEvent(EventType.MapMakeEvent.class, engine);
+        registerEvent(EventType.MapPublishEvent.class, engine);
+        registerEvent(EventType.MechChangeEvent.class, engine);
+        registerEvent(EventType.PlayEvent.class, engine);
+        registerEvent(EventType.PlayerChatEvent.class, engine);
+        registerEvent(EventType.PlayerConnect.class, engine);
+        registerEvent(EventType.PlayerJoin.class, engine);
+        registerEvent(EventType.PlayerLeave.class, engine);
+        registerEvent(EventType.ResearchEvent.class, engine);
+        registerEvent(EventType.ResetEvent.class, engine);
+        registerEvent(EventType.ResizeEvent.class, engine);
+        registerEvent(EventType.StateChangeEvent.class, engine);
+        registerEvent(EventType.TileChangeEvent.class, engine);
+        registerEvent(EventType.TurretAmmoDeliverEvent.class, engine);
+        registerEvent(EventType.UnitCreateEvent.class, engine);
+        registerEvent(EventType.UnitDestroyEvent.class, engine);
+        registerEvent(EventType.UnlockEvent.class, engine);
+        registerEvent(EventType.WaveEvent.class, engine);
+        registerEvent(EventType.WinEvent.class, engine);
+        registerEvent(EventType.WithdrawEvent.class, engine);
+        registerEvent(EventType.WorldLoadEvent.class, engine);
+        registerEvent(EventType.ZoneConfigureCompleteEvent.class, engine);
+        registerEvent(EventType.ZoneRequireCompleteEvent.class, engine);
+    }
+    /* Gonna Organize that later (or i'll see) */
 
     public Object runJs(String code) {
         try {
