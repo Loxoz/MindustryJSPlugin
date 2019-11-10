@@ -6,8 +6,8 @@
 
 ## Installing
 
-Simply place the `.jar file` you downloaded in the [releases tab](https://github.com/Loxoz/MindustryJSPlugin/releases) or you [built](#building) in your server's `config/plugins` directory and restart the server.
-List your currently installed plugins by running the `plugins` command.
+Simply place the `.jar file` you downloaded in the [releases tab](https://github.com/Loxoz/MindustryJSPlugin/releases) or you [built](#building) in your server's `config/mods` directory and restart the server.
+List your currently installed plugins by running the `mods` command.
 
 ## Wiki
 
