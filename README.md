@@ -2,7 +2,9 @@
 
 ### A Mindustry Plugin to support Javascript scripts as sub-plugins
 
-👉🏻 Please note that this project is in **early alpha**, do not expect to see anything working for now, and it's subject to major changes
+👉🏻 Please note that this project is in **early alpha**, do not expect to see anything working for now, and it's subject to major changes  
+
+> PRs are welcome ;)
 
 ## Installing
 

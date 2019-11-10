@@ -1,6 +1,7 @@
 package fr.loxoz.mindustry;
 
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -76,46 +77,15 @@ public class MindustryJSPlugin extends Plugin {
                 ex.printStackTrace();
             }
         });
+        Log.debug("Registered Event $" + eventType.getSimpleName());
     }
 
     public static void registerEvents(ScriptEngine engine) {
-        registerEvent(EventType.BlockBuildBeginEvent.class, engine);
-        registerEvent(EventType.BlockBuildEndEvent.class, engine);
-        registerEvent(EventType.BlockDestroyEvent.class, engine);
-        registerEvent(EventType.BlockInfoEvent.class, engine);
-        registerEvent(EventType.BuildSelectEvent.class, engine);
-        registerEvent(EventType.ClientLoadEvent.class, engine);
-        registerEvent(EventType.CommandIssueEvent.class, engine);
-        registerEvent(EventType.CoreItemDeliverEvent.class, engine);
-        registerEvent(EventType.DepositEvent.class, engine);
-        registerEvent(EventType.DisposeEvent.class, engine);
-        registerEvent(EventType.GameOverEvent.class, engine);
-        registerEvent(EventType.LaunchEvent.class, engine);
-        registerEvent(EventType.LineConfirmEvent.class, engine);
-        registerEvent(EventType.LoseEvent.class, engine);
-        registerEvent(EventType.MapMakeEvent.class, engine);
-        registerEvent(EventType.MapPublishEvent.class, engine);
-        registerEvent(EventType.MechChangeEvent.class, engine);
-        registerEvent(EventType.PlayEvent.class, engine);
-        registerEvent(EventType.PlayerChatEvent.class, engine);
-        registerEvent(EventType.PlayerConnect.class, engine);
-        registerEvent(EventType.PlayerJoin.class, engine);
-        registerEvent(EventType.PlayerLeave.class, engine);
-        registerEvent(EventType.ResearchEvent.class, engine);
-        registerEvent(EventType.ResetEvent.class, engine);
-        registerEvent(EventType.ResizeEvent.class, engine);
-        registerEvent(EventType.StateChangeEvent.class, engine);
-        registerEvent(EventType.TileChangeEvent.class, engine);
-        registerEvent(EventType.TurretAmmoDeliverEvent.class, engine);
-        registerEvent(EventType.UnitCreateEvent.class, engine);
-        registerEvent(EventType.UnitDestroyEvent.class, engine);
-        registerEvent(EventType.UnlockEvent.class, engine);
-        registerEvent(EventType.WaveEvent.class, engine);
-        registerEvent(EventType.WinEvent.class, engine);
-        registerEvent(EventType.WithdrawEvent.class, engine);
-        registerEvent(EventType.WorldLoadEvent.class, engine);
-        registerEvent(EventType.ZoneConfigureCompleteEvent.class, engine);
-        registerEvent(EventType.ZoneRequireCompleteEvent.class, engine);
+        Class<?>[] classes = EventType.class.getClasses();
+        HashMap<String,Class<?>> events = new HashMap<>();
+        for(Class<?> c : classes) events.put(c.getSimpleName(), c);
+        events.remove("Trigger");
+        events.forEach((name, c) -> registerEvent(c, engine));
     }
     /* Gonna Organize that later (or i'll see) */
 
